@@ -32,6 +32,6 @@ def angle(m, n, s):
     angle = math.acos(dot_product / magnitude_product)
     return(angle)
     
-for m, n, s in itertools.combinations(coord_dict.keys(), 3):
+for m, n, s in itertools.permutations(coord_dict.keys(), 3):
     print(m, n, s),
     print(angle(m, n, s))
