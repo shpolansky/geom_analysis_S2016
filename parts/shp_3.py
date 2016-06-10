@@ -11,26 +11,18 @@ coord_dict = {'H0': [1.00, 2.00, 1.00], 'O0': [2.00, 1.00, 1.00], 'H1': [1.00, 2
 
 import math
 import itertools
+import numpy as np
+
 
 def angle(m, n, s):
-    r1 = []
-    r2 = []
-    r1_xdiff = coord_dict[m][0] - coord_dict[n][0]
-    r1_ydiff = coord_dict[m][1] - coord_dict[n][1]
-    r1_zdiff = coord_dict[m][2] - coord_dict[n][2]
-    r2_xdiff = coord_dict[m][0] - coord_dict[s][0]
-    r2_ydiff = coord_dict[m][1] - coord_dict[s][1]
-    r2_zdiff = coord_dict[m][2] - coord_dict[s][2]
-    r1.append(r1_xdiff)
-    r1.append(r1_ydiff)
-    r1.append(r1_zdiff)
-    r2.append(r2_xdiff)
-    r2.append(r2_ydiff)
-    r2.append(r2_zdiff)
-    dot_product = (r1[0] * r2[0]) + (r1[1] * r2[1]) + (r1[2] * r2[2])
-    magnitude_product = (((r1[0] ** 2) + (r1[1] ** 2) + (r1[2] ** 2)) ** 0.5) * (((r2[0] ** 2) + (r2[1] ** 2) + (r2[2] ** 2)) ** 0.5)
-    angle = math.acos(dot_product / magnitude_product)
-    return(angle)
+    list_m = np.array(coord_dict[m])
+    list_n = np.array(coord_dict[n])
+    list_s = np.array(coord_dict[s])
+    r1 = list_m - list_n
+    r2 = list_m - list_s
+    dot_product = np.dot(r1, r2)
+    magnitude_product = np.linalg.norm(r1) * np.linalg.norm(r2)
+    return(math.acos(dot_product / magnitude_product))
     
 for m, n, s in itertools.permutations(coord_dict.keys(), 3):
     print(m, n, s),
