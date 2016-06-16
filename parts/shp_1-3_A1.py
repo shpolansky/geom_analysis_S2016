@@ -8,6 +8,7 @@ Created on Mon Jun  6 15:45:27 2016
 import itertools
 import math
 import numpy as np
+import argparse
 
 
 #part 1 reading the file
