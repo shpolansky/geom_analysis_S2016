@@ -37,8 +37,6 @@ def readgeom(filename):
             coord_dict[symbol_list[-1]] = coord_list[-1]  
     return(coord_dict)
 
-
-
 def distance(m, n):
     """Returns the distance between two atomic coordinates
 
@@ -67,8 +65,6 @@ def alldistances(dictionary):
     for m, n in itertools.combinations(dictionary.keys(), 2):   
         distances[m, n] = distance(dictionary[m], dictionary[n])
     return(distances)
-
-
 
 def angle(m, n, s):
     """Returns the angle between three coordinates
@@ -104,8 +100,6 @@ def allangles(dictionary):
     for m, n, s in itertools.permutations(dictionary.keys(), 3):
         angles[m, n, s] = angle(dictionary[m], dictionary[n], dictionary[s])
     return(angles)  
-
-
 
 def outofplaneangle(m, n, s, t):
     """Returns the angle coming out of the plane for four atoms
@@ -146,7 +140,36 @@ def alloutofplaneangles(dictionary):
         outofplaneangles[m, n, s, t] = outofplaneangle(dictionary[m], dictionary[n], dictionary[s], dictionary[t])
     return(outofplaneangles)
 
+def centerofmass(coord_dict, mass_dict):
+    """Returns the center of mass coordinates for a set of atoms
+    
+    Parameters:
+            dict coord_dict -- dictionary of atomic symbols and their Cartesian coordinates.
+            The keys are the symbols of the atoms as strings, and the values are the Cartesian 
+            coordinates as floats in [x, y, z] format.
+            
+            dict mass_dict -- dictionary of atomic symbols and their molar mass.
+            The keys are the atomic symbols as strings, and the values are the molar masses
+            as floats.
 
-
-
-
+    Returns:
+            list coord_list -- a list of the Cartesian coordinates of the center of mass
+            as floats in [x, y, z] format."""
+    mass_list = []
+    x_list = []
+    y_list = []
+    z_list = []
+    coord_list = []
+    for m in coord_dict.keys():
+        for n in mass_dict.keys():
+            if m[0] == n:
+                m_mass = mass_dict[n] 
+                mass_list.append(m_mass[0])
+                print(mass_list)
+        x_list.append(mass_list[-1] * coord_dict[m][0])
+        y_list.append(mass_list[-1] * coord_dict[m][1])
+        z_list.append(mass_list[-1] * coord_dict[m][2])
+    coord_list.append(sum(x_list) / sum(mass_list))
+    coord_list.append(sum(y_list) / sum(mass_list))
+    coord_list.append(sum(z_list) / sum(mass_list))
+    return(coord_list)
